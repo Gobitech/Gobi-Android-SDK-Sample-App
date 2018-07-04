@@ -10,4 +10,10 @@ import android.app.Application;
  */
 public class SdkSampleApplication extends Application {
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        final String gobiCustomerId = "ZDY5OGI0YZQ3MJG0MWE3ZDA0YWEXZDLK"; // "Sample SDK app" customer
+    }
 }
