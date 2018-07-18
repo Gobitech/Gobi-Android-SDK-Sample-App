@@ -1,9 +1,9 @@
 package gobi.gobiapp.no.gobiandroidsdksampleapp;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,17 +17,12 @@ import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Main activity wihch shows story name and story.
+ * An alternative to {@link MainActivity} for those that do not use {@link AppCompatActivity}
+ * but rather {@link Activity} as the base class.
  *
- * <p>
- * If you do not use {@link AppCompatActivity},
- * take a look at {@link MainActivityNoAppCompat}
- * which usess {@link Gobi#showStory(String, Activity)}.
- * </p>
- *
- * @see MainActivityNoAppCompat
+ * @author Kristian 'krissrex' Rekstad
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivityNoAppCompat extends Activity {
 
     private TextView storyText;
     private final CompositeSubscription subscriptions = new CompositeSubscription();
@@ -49,18 +44,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showStory() {
-        Gobi.showStory(Stories.TEAM_GOBI, getSupportFragmentManager())
+        Gobi.showStory(Stories.TEAM_GOBI, this)
                 .subscribe(new CompletableSubscriber() {
                     @Override
-                    public void onCompleted() { }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(MainActivity.this, "Failed to show the story", Toast.LENGTH_SHORT).show();
+                    public void onCompleted() {
                     }
 
                     @Override
-                    public void onSubscribe(Subscription d) { }
+                    public void onError(Throwable e) {
+                        Toast.makeText(MainActivityNoAppCompat.this, "Failed to show the story", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSubscribe(Subscription d) {
+                    }
                 });
     }
 
